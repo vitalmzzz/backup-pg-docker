@@ -1,0 +1,6 @@
+---
+container_name: "tools_postgres_1"
+pg_user: "awx"
+dump_dir: "/opt/awx/dump"
+pg_data: "/opt/awx/database"
+pg_backup_dir: "/data/backup/pg_awx"

@@ -1,0 +1,24 @@
+---
+
+- name: "Сleaning old dumps files" 
+  file:
+    path: "{{ dump_dir }}/awx-pg-dump*.sql"
+    state: absent
+
+- name: "Create new dump"
+  shell: "docker exec {{ container_name }} pg_dumpall -c -U {{ pg_user }} > awx-pg-dump-{{ ansible_hostname }}-{{ ansible_date_time.date }}.sql"
+  args:
+    chdir: "{{ dump_dir }}"
+
+- name: "Create backup directory"
+  file: 
+    path: "{{ pg_backup_dir }}"
+    state: directory
+
+- name: "Archiving and send backup file" 
+  archive:
+    path: 
+      - "{{ pg_data }}"
+      - "{{ dump_dir }}"
+    dest: "{{ pg_backup_dir }}/backup-pg-{{ ansible_hostname }}-{{ ansible_date_time.date }}.zip"
+    format: zip
