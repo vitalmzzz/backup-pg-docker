@@ -16,7 +16,7 @@
     state: directory
 
 - name: "Archiving and send backup file" 
-  archive:
+  community.general.archive:
     path: 
       - "{{ pg_data }}"
       - "{{ dump_dir }}"
